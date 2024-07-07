@@ -1,4 +1,3 @@
-import React from "react";
 import CalendarBox from "./CalendarBox";
 
 export default function Calendar() {
