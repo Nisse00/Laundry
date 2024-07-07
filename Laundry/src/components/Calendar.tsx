@@ -24,7 +24,7 @@ export default function Calendar() {
 
     return (
         <div className="container">
-            <div className="row">
+            <div className="row" style={{ marginTop: "20px" }}>
                 <div className="col" style={{ textAlign: "center" }}>
                     <h1>Calendar Booking</h1>
                     {rows}
