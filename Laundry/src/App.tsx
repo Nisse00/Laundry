@@ -1,4 +1,5 @@
 import Calendar from "./components/Calendar";
+import BookingPopout from "./components/BookingPopout";
 
 export default function App() {
   return (

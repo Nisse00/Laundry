@@ -1,4 +1,5 @@
 import { useState } from "react";
+import BookingPopout from "./BookingPopout";
 
 interface CalendarBoxProps {
     cardTitleNumber: number;
@@ -8,11 +9,20 @@ export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
     const [isBooked1, setIsBooked1] = useState(false);
     const [isBooked2, setIsBooked2] = useState(false);
     const [isBooked3, setIsBooked3] = useState(false);
+    const [showBookingPopout, setShowBookingPopout] = useState(false);
 
-    const handleClick = (arg: number): void => {
+    const handleConfirmation = (text: string): boolean => {
+        console.log(`Booking time slot ${text}`);
+        setShowBookingPopout(true); // Show the BookingPopout modal
+        return true;
+    };
+
+    const handleClick = (arg: number, text: string ): void => {
         switch (arg) {
             case 1:
-                setIsBooked1(!isBooked1);
+                if (handleConfirmation(text)){
+                    setIsBooked1(!isBooked1);
+                }
                 break;
             case 2:
                 setIsBooked2(!isBooked2);
@@ -23,7 +33,9 @@ export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
             default:
                 break;
         }
-    }
+    };
+
+    const handleClose = () => setShowBookingPopout(false);
 
     return (
         <div className="card" style={{ width: "10rem", height: "8rem"}}>
@@ -34,7 +46,7 @@ export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
                         <span>08:00-12:00</span>
                         <button
                             className={`btn ${isBooked1 ? "btn-danger" : "btn-success"}`}
-                            onClick={() => handleClick(1)}
+                            onClick={() => handleClick(1, "08:00-12:00")}
                             style={{ padding: "0.5rem" }}
                         >
                             {/* No text needed */}
@@ -44,7 +56,7 @@ export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
                         <span>12:00-16:00</span>
                         <button
                             className={`btn ${isBooked2 ? "btn-danger" : "btn-success"}`}
-                            onClick={() => handleClick(2)}
+                            onClick={() => handleClick(2, "12:00-16:00")}
                             style={{ padding: "0.5rem" }}
                         >
                             {/* No text needed */}
@@ -54,7 +66,7 @@ export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
                         <span>16:00-20:00</span>
                         <button
                             className={`btn ${isBooked3 ? "btn-danger" : "btn-success"}`}
-                            onClick={() => handleClick(3)}
+                            onClick={() => handleClick(3, "16:00-20:00")}
                             style={{ padding: "0.5rem" }}
                         >
                             {/* No text needed */}
@@ -62,6 +74,7 @@ export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
                     </li>
                 </ul>
             </div>
+            <BookingPopout show={showBookingPopout} handleClose={handleClose} />
         </div>
     );
 }
