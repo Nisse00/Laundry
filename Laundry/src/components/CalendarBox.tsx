@@ -10,35 +10,45 @@ export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
     const [isBooked2, setIsBooked2] = useState(false);
     const [isBooked3, setIsBooked3] = useState(false);
     const [showBookingPopout, setShowBookingPopout] = useState(false);
+    const [bookingText, setBookingText] = useState("");
+    const [bookingSlot, setBookingSlot] = useState<number | null>(null);
 
-    const handleConfirmation = (text: string): boolean => {
-        console.log(`Booking time slot ${text}`);
+    const handleConfirmation = (text: string, slot: number): boolean => {
+        setBookingText(text); // Set the booking text
+        setBookingSlot(slot); // Set the booking slot
         setShowBookingPopout(true); // Show the BookingPopout modal
         return true;
     };
 
-    const handleClick = (arg: number, text: string ): void => {
-        switch (arg) {
-            case 1:
-                if (handleConfirmation(text)){
-                    setIsBooked1(!isBooked1);
-                }
-                break;
-            case 2:
-                setIsBooked2(!isBooked2);
-                break;
-            case 3:
-                setIsBooked3(!isBooked3);
-                break;
-            default:
-                break;
-        }
+    const handleClick = (arg: number, text: string): void => {
+        handleConfirmation(text, arg);
     };
 
-    const handleClose = () => setShowBookingPopout(false);
+    const handleSave = () => {
+        if (bookingSlot !== null) {
+            switch (bookingSlot) {
+                case 1:
+                    setIsBooked1(true);
+                    break;
+                case 2:
+                    setIsBooked2(true);
+                    break;
+                case 3:
+                    setIsBooked3(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+        setShowBookingPopout(false);
+    };
+
+    const handleClose = () => {
+        setShowBookingPopout(false);
+    };
 
     return (
-        <div className="card" style={{ width: "10rem", height: "8rem"}}>
+        <div className="card" style={{ width: "10rem", height: "8rem" }}>
             <div className="card-body">
                 <h5 className="card-title" style={{ fontSize: "14px" }}>{cardTitleNumber}</h5>
                 <ul style={{ listStyleType: "none", padding: 0 }}>
@@ -74,7 +84,7 @@ export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
                     </li>
                 </ul>
             </div>
-            <BookingPopout show={showBookingPopout} handleClose={handleClose} />
+            <BookingPopout show={showBookingPopout} handleClose={handleClose} handleSave={handleSave} text={bookingText} />
         </div>
     );
 }

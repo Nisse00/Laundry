@@ -1,25 +1,26 @@
-import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 interface BookingPopoutProps {
   show: boolean;
   handleClose: () => void;
+  handleSave: () => void;
+  text: string;
 }
 
-function BookingPopout({ show, handleClose }: BookingPopoutProps) {
+function BookingPopout({ show, handleClose, handleSave, text }: BookingPopoutProps) {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Booking Confirmation</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+      <Modal.Body>{text}</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          Cancel
         </Button>
-        <Button variant="primary" onClick={handleClose}>
-          Save Changes
+        <Button variant="primary" onClick={handleSave}>
+            Confirm Booking
         </Button>
       </Modal.Footer>
     </Modal>
