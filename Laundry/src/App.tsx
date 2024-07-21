@@ -1,13 +1,14 @@
-import Calendar from "./components/Calendar";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MainPage from './components/MainPage';
+import CalendarPage from './components/CalendarPage';
 
 export default function App() {
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col" style={{ textAlign: "center" }}>
-        <Calendar />
-        </div>
-      </div>
-    </div>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/calendar" element={<CalendarPage />} />
+            </Routes>
+        </Router>
+    );
 }
