@@ -1,22 +1,22 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-interface BookingPopoutProps {
+interface SavingBookingPopoutProps {
   show: boolean;
-  handleClose: () => void;
+  handleCloseSave: () => void;
   handleSave: () => void;
   text: string;
 }
 
-function BookingPopout({ show, handleClose, handleSave, text }: BookingPopoutProps) {
+function SavingBookingPopout({ show, handleCloseSave, handleSave, text }: Readonly<SavingBookingPopoutProps>) {
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleCloseSave}>
       <Modal.Header closeButton>
         <Modal.Title>Booking Confirmation</Modal.Title>
       </Modal.Header>
       <Modal.Body>{text}</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleCloseSave}>
           Cancel
         </Button>
         <Button variant="primary" onClick={handleSave}>
@@ -27,4 +27,4 @@ function BookingPopout({ show, handleClose, handleSave, text }: BookingPopoutPro
   );
 }
 
-export default BookingPopout;
+export default SavingBookingPopout;

@@ -23,12 +23,15 @@ export default function Calendar() {
 
     return (
         <div className="container">
-            <div className="row" style={{ marginTop: "20px" }}>
-                <div className="col" style={{ textAlign: "center" }}>
+            <div className="row" style={{ marginTop: "20px", alignItems: "center" }}>
+                <div className="col-auto">
+                    <button className="btn btn-primary" onClick={() => window.location.href = "/"} style={{ marginRight: "10px" }}>Back</button>
+                </div>
+                <div className="col text-center">
                     <h1>Calendar Booking</h1>
-                    {rows}
                 </div>
             </div>
+            {rows}
         </div>
     );
 }

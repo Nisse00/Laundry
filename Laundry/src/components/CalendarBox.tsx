@@ -1,50 +1,87 @@
 import { useState } from "react";
-import BookingPopout from "./BookingPopout";
+import SavingBookingPopout from "./SavingBookingPopout";
+import CancellingBookingPopout from "./CancellingBookingPopout";
 
 interface CalendarBoxProps {
-    cardTitleNumber: number;
+    readonly cardTitleNumber: number;
 }
 
 export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
     const [isBooked1, setIsBooked1] = useState(false);
     const [isBooked2, setIsBooked2] = useState(false);
     const [isBooked3, setIsBooked3] = useState(false);
-    const [showBookingPopout, setShowBookingPopout] = useState(false);
+    const [showSavingBookingPopout, setShowSavingBookingPopout] = useState(false);
+    const [showCancelBookingPopout, setShowCancelBookingPopout] = useState(false);
     const [bookingText, setBookingText] = useState("");
     const [bookingSlot, setBookingSlot] = useState<number | null>(null);
 
-    const handleConfirmation = (text: string, slot: number): boolean => {
+    const handleConfirmation = (isBooked: boolean, text: string, slot: number): boolean => {
         setBookingText(text); // Set the booking text
         setBookingSlot(slot); // Set the booking slot
-        setShowBookingPopout(true); // Show the BookingPopout modal
+        if (isBooked) {
+            setShowCancelBookingPopout(true); // Show the CancellingBookingPopout modal
+        } else {
+            setShowSavingBookingPopout(true); // Show the BookingPopout modal
+        }
         return true;
     };
 
     const handleClick = (arg: number, text: string): void => {
-        handleConfirmation(text, arg);
+        if (arg === 1) {
+            isBooked1 ? handleConfirmation(true, text, arg) : handleConfirmation(false, text, arg);
+        }
+        if (arg === 2) {
+            isBooked2 ? handleConfirmation(true, text, arg) : handleConfirmation(false, text, arg);
+        }
+        if (arg === 3) {
+            isBooked3 ? handleConfirmation(true, text, arg) : handleConfirmation(false, text, arg);
+        }
     };
 
+    //Used by the BookingPopout component
     const handleSave = () => {
         if (bookingSlot !== null) {
             switch (bookingSlot) {
                 case 1:
-                    setIsBooked1(true);
+                    if (isBooked1) {
+                        setIsBooked1(false);
+                    } else {
+                        setIsBooked1(true);
+                    }
                     break;
                 case 2:
-                    setIsBooked2(true);
+                    if (isBooked2) {
+                        setIsBooked2(false);
+                    } else {
+                        setIsBooked2(true);
+                    }
                     break;
                 case 3:
-                    setIsBooked3(true);
+                    if (isBooked3) {
+                        setIsBooked3(false);
+                    } else {
+                        setIsBooked3(true);
+                    }
                     break;
                 default:
                     break;
             }
         }
-        setShowBookingPopout(false);
+        if (showSavingBookingPopout) {
+            setShowSavingBookingPopout(false);
+        } else {
+            setShowCancelBookingPopout(false);
+        }
     };
 
-    const handleClose = () => {
-        setShowBookingPopout(false);
+    //Used by the BookingPopout component
+    const handleCloseSave = () => {
+        setShowSavingBookingPopout(false);
+    };
+
+    //Used by the CancellingBookingPopout component
+    const handleCloseCancel = () => {
+        setShowCancelBookingPopout(false);
     };
 
     return (
@@ -84,7 +121,8 @@ export default function CalendarBox({ cardTitleNumber }: CalendarBoxProps) {
                     </li>
                 </ul>
             </div>
-            <BookingPopout show={showBookingPopout} handleClose={handleClose} handleSave={handleSave} text={bookingText} />
+            <SavingBookingPopout show={showSavingBookingPopout} handleCloseSave={handleCloseSave} handleSave={handleSave} text={bookingText} />
+            <CancellingBookingPopout show={showCancelBookingPopout} handleCloseCancel={handleCloseCancel} handleSave={handleSave} text={bookingText} />
         </div>
     );
 }
